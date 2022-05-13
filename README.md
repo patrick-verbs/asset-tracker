@@ -37,28 +37,62 @@ _No known bugs_ :bug:
 
 This will be a many-to-many model where __users__ are associated with __assets__ and vice versa.
 
-Asset model:
+__Asset__ model:
 
 * ID | `int` | __MVP__
 * Asset full name | `string` | __MVP__
 * Asset short name | `string` (optional) | __Stretch__
-* Asset parents | `int` (ID) | __Stretch__
-* Asset children | `int` (ID) | __Stretch__
+* Asset parents (e.g. if asset is part of a collection/archive) | `int` (ID) | __Stretch__
+* Asset children (e.g. if asset is an archive containing files) | `int` (ID) | __Stretch__
 * Asset owners (many to many)
-  * Individuals | `int` (ID via join table) | __MVP__
-  * Groups | `int` (ID via join) | __Stretch__
+  * __Users__ | `int` (ID via __UsersAssets__ join table) | __MVP__
+  * __Groups__ | `int` (ID via join) | __Stretch__
 * Asset deployments | __Stretch__
+  * __Projects__ | `int` (ID via join)
+* Asset license
+  * Actual license | `string` | __MVP__
+  * Usage description/limitations if no actual license | `string` | __Stretch__
+
+__User__ model:
+
+* ID | `int` | __MVP__
+* User name | `string` | __MVP__
+* User email | `string` (optional) | __Stretch__
+* User full name | `string` (optional) | __Stretch__
+* User's assets (many to many)
+  * Owned | `int` (__Asset__ ID via __UsersAssets__ join table) | __MVP__
+  * Provisional | `int` (__Asset__ ID populated via __Groups__) | __Stretch__
+* User's projects | __Stretch__
   * Projects | `int` (ID via join)
-* Asset license | __MVP__
-  * Actual license | `string`
-  * Usage description/limitations if no actual license | `string`
-* Checksum(s) | __Stretch__
+
+__UsersAssets__ model:
+
+* User ID | `int` | __MVP__
+* Asset ID | `int` | __MVP__
+* Asset location | `string` (short description, like a nickname, e.g. "Ada's MacBook") | __MVP__
+* Asset address | `string` (URL or file system address) | __Stretch__
+* Asset license
+  * Actual license | `string` | __MVP__
+  * Usage description/limitations if no actual license | `string` | __Stretch__
 * Source | __Stretch__
-  * Source name | `string`
-  * Source address | `string` (URL)
-  * Invoice | `string` (file address)
+  * Source name | `string` (e.g. "Unity Asset Store")
+  * Source address | `string` (e.g. URL)
+  * File checksum(s) | `array` of `string`s (SHA-256)
+  * Invoice | `string` (URL or file address)
 * Provenance | __Stretch__
-  * Ordered list | nested `array` of key-value pairs
+  * Ordered list | nested `array` of key-value pairs showing chain of custody (__User__ or __Group__ IDs nested from a __Source__)
+* Public (visible to all users) | `boolean` | __Stretch__
+* Visibility | `array` of `string`s (__User__ and __Group__ IDs) | __Stretch__
+
+__Group__ model | __Stretch__
+
+* Groups can be associated with many users
+* Users can be associated with many groups
+
+__Project__ model | __Stretch__
+
+* Projects can be associated with many users
+* Users can be associated with many projects
 
 ## About Laravel
 
