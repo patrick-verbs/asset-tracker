@@ -31,6 +31,35 @@ A simple MVC project to familiarize myself with the Laravel framework.
 
 _No known bugs_ :bug:
 
+## Whiteboarding
+
+### Data Structure
+
+This will be a many-to-many model where __users__ are associated with __assets__ and vice versa.
+
+Asset model:
+
+* ID | `int` | __MVP__
+* Asset full name | `string` | __MVP__
+* Asset short name | `string` (optional) | __Stretch__
+* Asset parents | `int` (ID) | __Stretch__
+* Asset children | `int` (ID) | __Stretch__
+* Asset owners (many to many)
+  * Individuals | `int` (ID via join table) | __MVP__
+  * Groups | `int` (ID via join) | __Stretch__
+* Asset deployments | __Stretch__
+  * Projects | `int` (ID via join)
+* Asset license | __MVP__
+  * Actual license | `string`
+  * Usage description/limitations if no actual license | `string`
+* Checksum(s) | __Stretch__
+* Source | __Stretch__
+  * Source name | `string`
+  * Source address | `string` (URL)
+  * Invoice | `string` (file address)
+* Provenance | __Stretch__
+  * Ordered list | nested `array` of key-value pairs
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
