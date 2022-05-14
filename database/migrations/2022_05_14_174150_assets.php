@@ -13,7 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('assets', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
+            // $table->timestamps('date_added_to_collection');
+            $table->string('license');
+            $table->string('location');
+        });
     }
 
     /**
@@ -23,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('assets');
     }
 };
